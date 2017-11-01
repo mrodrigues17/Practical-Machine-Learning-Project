@@ -1,5 +1,5 @@
 # Practical Machine Learning Project
-This is the repository for the final project for Coursera's Practical Machine Learning Course. See the html and R Markdown Files for my submission.
+This is the repository for the final project for Coursera's Practical Machine Learning Course. See the link below and R Markdown file for my submission.
 
 ## RPubs
 
