@@ -119,7 +119,13 @@ My approach was to build a quick model using a classification tree then use the 
 I used a 3-fold cross validation approach to reduce the processing time of the random forest model. The default method is "boot" (i.e. bootstrapping) which requires a much longer processing time.
 
 ### Expected Out of Sample Error
-Given the validation data set yielded an accuracy of about 99.9% and the model correctly predicted the class 100% of the time (20 out of 20 correct), the out of sample error rate is likely very low (<1%). However, since the validation set was included for training, overfitting might mean a slightly higher out of sample error rate.
+Below is an estimation of the out of sample error based on the accuracy from the validation data set.
+```{r error, echo=FALSE}
+out_of_sample_accuracy <- sum(pred == validation$classe)/length(pred)
+out_of_sample_error <- 1 - out_of_sample_accuracy
+out_of_sample_error
+```
+Given the validation data set yielded an accuracy of about 99.9% and the model correctly predicted the class 100% of the time (20 out of 20 correct), the out of sample error rate is very low (<1%). However, since the validation set was used in the training process, overfitting might mean this is an underestimate of the true out of sample error.
 
 ### Reasoning Behind Model Creation
 Most of the choices I made were for the sake of scalability. The random forest model has good accuracy and the processing time isn't unreasonably long (about 10 minutes) . The small number of folds (3) means that variability is low but at the expense of increased bias. 
