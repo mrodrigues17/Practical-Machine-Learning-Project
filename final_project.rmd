@@ -4,11 +4,11 @@ author: "Max R"
 date: "10/31/2017"
 output: html_document
 ---
-##Introduction
+## Introduction
 
 Using data collected from 6 participants who wore accelerometers on a belt, on their forearm, on their arm, and on a dumbell, the goal was to create a model that can predict how the participant was executing a bicep curl exercise. According to the [paper](http://web.archive.org/web/20170809020213/http://groupware.les.inf.puc-rio.br/public/papers/2013.Velloso.QAR-WLE.pdf) the data was originally used for, there are five different "Classes" to describe the manner in which the participant was executing the exercise. Class A was the correct specification while classes B-E were various incorrect forms. Students in the Coursera class were provided a training data set with all of the variables including the Class variable as well as a testing data set that did not include the class variable. Students were asked to predict the class variable in the test data set based on their model created from the training data set.
 
-##Classification Tree
+## Classification Tree
 After reading in the data, I first separated the training set into a sub training set as well as a validation set using the `createDataPartition` function to test models before applying to the testing set. I trimmed the data sets based on the variables that were summarizations that included mostly NA values as well as a few other variables that were not helpful for building a model (e.g. the name of the participants, the timestamp, etc.). All variables kept were numeric except the outcome variable.
 
 Using all of the variables as predictors and Class as the outcome, I first created a classification tree model. Then, I used the `varImp` function from the `caret` package to gauge which variables are important and can be used for a random forest model.
@@ -82,7 +82,7 @@ print(importance)
 
 ```
 
-##Random Forest Model
+## Random Forest Model
 
 While the classification tree had poor predictive value, it provided information about potentially useful predictor variables. For the sake of parsimony and scalability, I selected the top ten variables ranked on importance from this model to be used in a random forest model. Since the random forest function in `caret` is quite time consuming, I used a 3-Fold cross-validation with parallel processing approach to reduce the time.
 
@@ -110,21 +110,21 @@ predict(RFmodelFit, testing_data_NA_RM)
 
 According to the confusion matrix applied to the validation data set, accuracy was 99.9%. For the 20 data points from the testing data set, this model correctly identified all 20 of the classes.
 
-##Summary
+## Summary
 
-###How I Built the Model
+### How I Built the Model
 My approach was to build a quick model using a classification tree then use the most important variables from the model to build a random forest model. Another approach would be to build a random forest model using all variables as predictors then determine which of those were the most important, but that approach would take much more time. The random forest model I used takes about ten minutes to run on R using a Macbook Pro.
 
-###Cross Validation
+### Cross Validation
 I used a 3-fold cross validation approach to reduce the processing time of the random forest model. The default method is "boot" (i.e. bootstrapping) which requires a much longer processing time.
 
-###Expected Out of Sample Error
+### Expected Out of Sample Error
 Given the validation data set yielded an accuracy of about 99.9% and the model correctly predicted the class 100% of the time (20 out of 20 correct), the out of sample error rate is likely very low (<1%). However, since the validation set was included for training, overfitting might mean a slightly higher out of sample error rate.
 
-###Reasoning Behind Model Creation
+### Reasoning Behind Model Creation
 Most of the choices I made were for the sake of scalability. The random forest model has good accuracy and the processing time isn't unreasonably long (about 10 minutes) . The small number of folds (3) means that variability is low but at the expense of increased bias. 
 
-##Appendix(r code)
+## Appendix(r code)
 ```{r appendix, ref.label= knitr::all_labels(), eval=FALSE}
 ```
 
